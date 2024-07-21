@@ -1,5 +1,7 @@
 import pytest
-from technical_test_fortis.vehicle import Vehicle, Car, Bike, find_best_vehicle
+from technical_test_fortis.car import  Car
+from technical_test_fortis.bike import Bike
+from technical_test_fortis.vehicle import Vehicle, find_best_vehicle
 
 
 @pytest.fixture
