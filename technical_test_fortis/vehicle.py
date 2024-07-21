@@ -32,6 +32,7 @@ class Car(Vehicle):
         taking into account its year of manufacture and technical inspection status.
 
     """
+
     def __init__(self, year: int, tank_size: int, consumption: int, technical_inspection: bool) -> None:
         super().__init__(year, tank_size, consumption)
         self.technical_inspection = technical_inspection
@@ -60,7 +61,8 @@ class Bike(Vehicle):
     Attributes:
     - year (int): The year of the bike's manufacture.
     - tank_size (int): This attribute does not apply to bikes. Set to 0 as default.
-    - consumption (int): This attribute represents the consumption of energy of the rider per km, typically it has a very low value.
+    - consumption (int): This attribute represents the consumption of energy of the rider per km,
+      typically it has a very low value.
     - saddle_comfort (bool): Whether the bike has a very comfortable saddle or not.
 
     Methods:
@@ -89,10 +91,21 @@ class Bike(Vehicle):
             return int(2 * base_distance)
         else:
             return int(base_distance)
-"""
-Task 2:
-Create a find_best_vehicle function that takes 2 vehicles as argument and return the one with the highest autonomy.
-"""
+
+
+def find_best_vehicle(vehicle1: Vehicle, vehicle2: Vehicle) -> Vehicle:
+    """
+    This function takes two vehicles as arguments and return the one with the highest autonomy.
+    :param vehicle1: the first vehicle
+    :param vehicle2: the second vehicle
+    :return: the vehicle with the highest autonomy
+    """
+
+    if vehicle1.compute_maximal_distance() > vehicle2.compute_maximal_distance():
+        return vehicle1
+    else:
+        return vehicle2
+
 
 """ 
 Task 3: 
