@@ -15,7 +15,7 @@ class Vehicle(ABC):
         self.consumption = consumption  # 5L per km -> consumption = 5
 
     @abstractmethod
-    def compute_maximal_distance(self) -> float:
+    def compute_maximal_distance(self) -> int:
         ...
 
 
@@ -50,15 +50,11 @@ class Car(Vehicle):
     def __str__(self) -> str:
         return f'Car(year={self.year}, tank_size={self.tank_size}, consumption={self.consumption}, technical_inspection={self.technical_inspection})'
 
-    def compute_maximal_distance(self) -> float:
+    def compute_maximal_distance(self) -> int:
         if not self.technical_inspection:
             # if the technical inspection is not done, the car cannot move
             return 0
-
-        if self.consumption == 0:
-            return float('inf')
-        else:
-            theoretical_max_distance: float = self.tank_size / self.consumption
+        theoretical_max_distance = self.tank_size / self.consumption
 
         if self.year < 2000:
             # if the car is from before 2000, the theoretical maximal distance is reduced by 10%
@@ -100,19 +96,19 @@ class Bike(Vehicle):
     def __str__(self) -> str:
         return f'Bike(year={self.year}, consumption={self.consumption}, saddle_comfort={self.saddle_comfort})'
 
-    def compute_maximal_distance(self) -> float:
+    def compute_maximal_distance(self) -> int:
         """
         This method overrides the abstract method in the parent class.
         It returns twice the distance if the saddle is comfortable, in contrast to the Car class where the mileage
         is affected by the technical inspection and the year of manufacture.
         """
-        base_distance: float = 100 / self.consumption  # TODO change to something more realistic, maybe introduce a tanksize as well.
+        base_distance = 100 / self.consumption  # TODO change to something more realistic, maybe introduce a tanksize as well.
 
         if self.saddle_comfort:
             # If saddle is comfortable, the base distance is doubled.
-            return 2.0 * base_distance
+            return int(2.0 * base_distance)
         else:
-            return base_distance
+            return int(base_distance)
 
 
 def find_best_vehicle(vehicle1: Vehicle, vehicle2: Vehicle) -> Vehicle:
