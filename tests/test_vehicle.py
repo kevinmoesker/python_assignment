@@ -4,7 +4,6 @@ from technical_test_fortis.bike import Bike
 from technical_test_fortis.vehicle import Vehicle, find_best_vehicle
 
 
-
 @pytest.fixture
 def create_car():
     def _create_car(year, tank_size, consumption, technical_inspection):
@@ -12,18 +11,19 @@ def create_car():
 
     return _create_car
 
+
 @pytest.fixture
 def create_bike():
     def _create_bike(year, consumption, saddle_comfort):
         return Bike(year, consumption, saddle_comfort)
 
     return _create_bike
+
+
 class TestVehicle:
     def test_vehicle_abstract_class(self):
         with pytest.raises(TypeError):
             Vehicle(2000, 50, 5)
-
-
 
 
 class TestFindBestVehicle:
