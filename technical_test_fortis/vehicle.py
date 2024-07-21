@@ -3,12 +3,19 @@ from abc import ABC, abstractmethod
 
 class Vehicle(ABC):
     def __init__(self, year: int, tank_size: int, consumption: int) -> None:
+
+        if not isinstance(year, int) or year <= 0:
+            raise ValueError("The year of manufacture must be a positive integer.")
+        if not isinstance(tank_size, int) or tank_size < 0:
+            raise ValueError("The tank size must be a non-negative integer.")
+        if not isinstance(consumption, int) or consumption <= 0:
+            raise ValueError("The consumption must be a positive integer.")
         self.year = year
         self.tank_size = tank_size
         self.consumption = consumption  # 5L per km -> consumption = 5
 
     @abstractmethod
-    def compute_maximal_distance(self) -> int:
+    def compute_maximal_distance(self) -> float:
         ...
 
 
@@ -34,15 +41,24 @@ class Car(Vehicle):
     """
 
     def __init__(self, year: int, tank_size: int, consumption: int, technical_inspection: bool) -> None:
+
         super().__init__(year, tank_size, consumption)
+        if not isinstance(technical_inspection, bool):
+            raise ValueError("The technical_inspection must be a boolean value.")
         self.technical_inspection = technical_inspection
 
-    def compute_maximal_distance(self) -> int:
+    def __str__(self) -> str:
+        return f'Car(year={self.year}, tank_size={self.tank_size}, consumption={self.consumption}, technical_inspection={self.technical_inspection})'
+
+    def compute_maximal_distance(self) -> float:
         if not self.technical_inspection:
             # if the technical inspection is not done, the car cannot move
             return 0
 
-        theoretical_max_distance = self.tank_size / self.consumption
+        if self.consumption == 0:
+            return float('inf')
+        else:
+            theoretical_max_distance: float = self.tank_size / self.consumption
 
         if self.year < 2000:
             # if the car is from before 2000, the theoretical maximal distance is reduced by 10%
@@ -76,21 +92,27 @@ class Bike(Vehicle):
 
     def __init__(self, year: int, consumption: int, saddle_comfort: bool) -> None:
         super().__init__(year, 0, consumption)
+
+        if not isinstance(saddle_comfort, bool):
+            raise ValueError("The saddle_comfort must be a boolean value.")
         self.saddle_comfort = saddle_comfort
 
-    def compute_maximal_distance(self) -> int:
+    def __str__(self) -> str:
+        return f'Bike(year={self.year}, consumption={self.consumption}, saddle_comfort={self.saddle_comfort})'
+
+    def compute_maximal_distance(self) -> float:
         """
         This method overrides the abstract method in the parent class.
         It returns twice the distance if the saddle is comfortable, in contrast to the Car class where the mileage
         is affected by the technical inspection and the year of manufacture.
         """
-        base_distance = 100 / self.consumption
+        base_distance: float = 100 / self.consumption  # TODO change to something more realistic, maybe introduce a tanksize as well.
 
         if self.saddle_comfort:
             # If saddle is comfortable, the base distance is doubled.
-            return int(2 * base_distance)
+            return 2.0 * base_distance
         else:
-            return int(base_distance)
+            return base_distance
 
 
 def find_best_vehicle(vehicle1: Vehicle, vehicle2: Vehicle) -> Vehicle:
@@ -105,9 +127,3 @@ def find_best_vehicle(vehicle1: Vehicle, vehicle2: Vehicle) -> Vehicle:
         return vehicle1
     else:
         return vehicle2
-
-
-""" 
-Task 3: 
-Add a unit test on find_best_vehicle
-"""
