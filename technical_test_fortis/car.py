@@ -36,7 +36,7 @@ class Car(Vehicle):
         if not self.technical_inspection:
             # if the technical inspection is not done, the car cannot move
             return 0
-        theoretical_max_distance = self.tank_size / self.consumption
+        theoretical_max_distance = self.tank_size // self.consumption
 
         if self.year < 2000:
             # if the car is from before 2000, the theoretical maximal distance is reduced by 10%
