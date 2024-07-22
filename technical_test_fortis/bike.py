@@ -24,8 +24,17 @@ class Bike(Vehicle):
     def __init__(self, year: int, consumption: int, saddle_comfort: bool) -> None:
         super().__init__(year, 0, consumption)
 
+
+        if not isinstance(year, int):
+            raise TypeError("The 'year' attribute must be of type 'int'")
+
+        if not isinstance(consumption, int):
+            raise TypeError("The 'consumption' attribute must be of type 'int'")
+
         if not isinstance(saddle_comfort, bool):
-            raise ValueError("The saddle_comfort must be a boolean value.")
+            raise TypeError("The 'saddle_comfort' attribute must be of type 'bool'")
+
+
         self.saddle_comfort = saddle_comfort
 
     def __str__(self) -> str:

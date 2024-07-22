@@ -10,17 +10,16 @@ def create_bike():
     return _create_bike
 
 
-# Adding test to validate inputs on bike creation
+
+# TODO Adding test to validate inputs on bike creation
 @pytest.mark.parametrize("year, consumption, saddle_comfort", [
-    (-2000, 1, True),  # Negative year
-    (2000, -1, True),  # Negative consumption
-    (2000, 1, "Comfy"),  # Saddle comfort not a boolean
-    (2000, '1', True),  # Consumption not a number
-    ('2000', 1, True),  # Year not a number
+  (-2000, 1, True),  # Negative year
+  (2000, -1, True),  # Negative consumption
+
 ])
 def test_bike_creation_invalid_inputs(create_bike, year, consumption, saddle_comfort):
-    with pytest.raises(ValueError):
-        create_bike(year, consumption, saddle_comfort)
+  with pytest.raises(ValueError):
+      create_bike(year, consumption, saddle_comfort)
 
 
 class TestBike:
@@ -29,9 +28,6 @@ class TestBike:
         (2005, 1, False, 100),  # Uncomfortable saddle
         (2005, 2, True, 100),  # Higher consumption, comfortable saddle
         (2005, 2, False, 50),  # Higher consumption, uncomfortable saddle
-        # Lower consumption, comfortable saddle
-        # Older bike, medium consumption, uncomfortable saddle
-        # Very low consumption
         (2005, 10, False, 10),  # Very high consumption
     ])
     def test_bike_compute_maximal_distance(self, create_bike, year, consumption, saddle_comfort, expected_distance):
@@ -51,10 +47,21 @@ class TestBike:
         assert str(bike) == expected_str
 
     @pytest.mark.parametrize("year, consumption, saddle_comfort", [
-        (-2000, 1, True),
-        (2000, -1, True),
-        (2000, 1, "Not a boolean"),
+        (-2000, 1, True), # negative year
+        (2000, -1, True) # negative consumption
+
     ])
-    def test_bike_invalid_inputs(self, create_bike, year, consumption, saddle_comfort):
+    def test_bike_invalid_inputs_value_errors(self, create_bike, year, consumption, saddle_comfort):
         with pytest.raises(ValueError):
+            create_bike(year, consumption, saddle_comfort)
+
+    @pytest.mark.parametrize("year, consumption, saddle_comfort, expected_exception", [
+        (2000, 1, "Comfy", TypeError),  # Saddle comfort not a boolean
+        (2000, 1.5, True, TypeError),  # Consumption not an integer
+        ('2000', 1, True, TypeError),  # Year not a number
+        (2000.5, 1, True, TypeError),  # Year not an integer
+        (2000, 1, 1, TypeError),  # Saddle comfort not a boolean
+    ])
+    def test_bike_creation_type_errors(self, create_bike, year, consumption, saddle_comfort, expected_exception):
+        with pytest.raises(expected_exception):
             create_bike(year, consumption, saddle_comfort)
