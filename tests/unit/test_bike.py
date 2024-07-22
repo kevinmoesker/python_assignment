@@ -1,7 +1,6 @@
 import pytest
 from technical_test_fortis.bike import Bike
 
-
 @pytest.fixture
 def create_bike():
     def _create_bike(year, consumption, saddle_comfort):
@@ -9,18 +8,13 @@ def create_bike():
 
     return _create_bike
 
-
-
-# TODO Adding test to validate inputs on bike creation
 @pytest.mark.parametrize("year, consumption, saddle_comfort", [
   (-2000, 1, True),  # Negative year
   (2000, -1, True),  # Negative consumption
-
 ])
 def test_bike_creation_invalid_inputs(create_bike, year, consumption, saddle_comfort):
   with pytest.raises(ValueError):
       create_bike(year, consumption, saddle_comfort)
-
 
 class TestBike:
     @pytest.mark.parametrize("year, consumption, saddle_comfort, expected_distance", [
