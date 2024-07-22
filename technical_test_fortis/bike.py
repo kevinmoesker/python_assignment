@@ -46,7 +46,7 @@ class Bike(Vehicle):
         It returns twice the distance if the saddle is comfortable, in contrast to the Car class where the mileage
         is affected by the technical inspection and the year of manufacture.
         """
-        base_distance = 100 / self.consumption  # TODO change to something more realistic, maybe introduce a tanksize as well.
+        base_distance = 100 // self.consumption  # TODO change to something more realistic, maybe introduce a tanksize as well.
 
         if self.saddle_comfort:
             # If saddle is comfortable, the base distance is doubled.
