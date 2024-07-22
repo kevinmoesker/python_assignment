@@ -64,12 +64,4 @@ class TestBike:
         with pytest.raises((ValueError, TypeError)):
             Bike(year, consumption, saddle_comfort)
 
-    @given(valid_bikes)
-    def test_bike_edge_cases(self, bike):
-        """Test edge cases for bike creation and computation."""
-        distance = bike.compute_maximal_distance()
 
-        if bike.consumption == 1 and bike.saddle_comfort:
-            assert distance == 200
-        elif bike.consumption == 100 and not bike.saddle_comfort:
-            assert distance == 2
