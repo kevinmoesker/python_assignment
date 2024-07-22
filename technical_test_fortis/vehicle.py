@@ -22,12 +22,15 @@ class Vehicle(ABC):
     """
     def __init__(self, year: int, tank_size: int, consumption: int) -> None:
 
-        if not isinstance(year, int) or year <= 0:
-            raise ValueError("The year of manufacture must be a positive integer.")
-        if not isinstance(tank_size, int) or tank_size < 0:
-            raise ValueError("The tank size must be a non-negative integer.")
-        if not isinstance(consumption, int) or consumption <= 0:
-            raise ValueError("The consumption must be a positive integer.")
+        def validate_input(input_value, minimum, error_message):
+            if not isinstance(input_value, int):
+                raise TypeError("Input value must be of type int.")
+            elif input_value < minimum:
+                raise ValueError(error_message)
+
+        validate_input(year, 1, "The year of manufacture must be a positive integer.")
+        validate_input(tank_size, 0, "The tank size must be a non-negative integer.")
+        validate_input(consumption, 1, "The consumption must be a positive integer.")
         self.year = year
         self.tank_size = tank_size
         self.consumption = consumption  # 5L per km -> consumption = 5
